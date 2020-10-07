@@ -64,17 +64,26 @@ module JSONAPI
 
       page_options = result_options
       if (JSONAPI.configuration.top_level_meta_include_record_count || (paginator && paginator.class.requires_record_count))
-        page_options[:record_count] = resource_klass.count(verified_filters,
-                                                           context: context,
-                                                           include_directives: include_directives)
+        begin
+          page_options[:record_count] = resource_klass.count(verified_filters,
+                                                            context: context,
+                                                            include_directives: include_directives)
+        rescue
+        end
       end
 
       if (JSONAPI.configuration.top_level_meta_include_page_count && paginator && page_options[:record_count])
-        page_options[:page_count] = paginator ? paginator.calculate_page_count(page_options[:record_count]) : 1
+        begin
+          page_options[:page_count] = paginator ? paginator.calculate_page_count(page_options[:record_count]) : 1
+        rescue
+        end
       end
 
       if JSONAPI.configuration.top_level_links_include_pagination && paginator
-        page_options[:pagination_params] = paginator.links_page_params(page_options.merge(fetched_resources: resource_set))
+        begin
+          page_options[:pagination_params] = paginator.links_page_params(page_options.merge(fetched_resources: resource_set))
+        rescue
+        end
       end
 
       JSONAPI::ResourcesSetOperationResult.new(:ok, resource_set, page_options)
