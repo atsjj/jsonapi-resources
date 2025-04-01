@@ -43,6 +43,12 @@ jobs:
           - postgresql://postgres:password@localhost:5432/test
           - sqlite3:test_db
         exclude:
+          - ruby: 3.4
+            rails: 6.0.6
+          - ruby: 3.4
+            rails: 5.2.8.1
+          - ruby: 3.4
+            rails: 5.1.7
           - ruby: 3.2
             rails: 6.0.6
           - ruby: 3.2
@@ -61,6 +67,8 @@ jobs:
             rails: 5.2.8.1
           - ruby: '3.0'
             rails: 5.1.7
+          - ruby: 2.6
+            rails: 8.0.2
           - ruby: 2.6
             rails: 7.0.4
           - database_url: postgresql://postgres:password@localhost:5432/test
